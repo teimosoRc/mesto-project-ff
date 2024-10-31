@@ -20,6 +20,12 @@ function createCard (cardData, deleteCallback) {
     return cardElement; 
 }
 
+// @todo: Функция удаления карточки
+function deleteCardHandler (cardElement) {
+  cardList.removeChild(cardElement)
+}
+// @todo: Вывести карточки на страницу
+
 function displayCard (cardInit) {
   
   cardInit.forEach(card => {
@@ -28,9 +34,4 @@ function displayCard (cardInit) {
 });
 }
 
-// @todo: Функция удаления карточки
-function deleteCardHandler (cardElement) {
-  cardList.removeChild(cardElement)
-}
-// @todo: Вывести карточки на страницу
 displayCard(initialCards)
