@@ -167,36 +167,51 @@ function handleLikeCard({ cardId, buttonElement, counterElement }) {
     "card__like-button_is-active"
   );
 
-  if (isActiveLike) {
-    unLikeCard(cardId)
-      .then(({ likes }) => {
-        buttonElement.classList.remove("card__like-button_is-active");
+  const likeMethod = isActiveLike ? unLikeCard : likeCard;
+  likeMethod(cardId)
+    .then(({ likes }) => {
+      buttonElement.classList.toggle("card__like-button_is-active");
+      counterElement.classList.toggle(
+        "card__like-counter_is-active",
+        likes.length
+      );
+      counterElement.textContent = likes.length || "";
+    })
+    .catch((err) => console.error(err))
+    .finally(() => {
+      buttonElement.disabled = false;
+    });
 
-        if (likes.length) {
-          counterElement.classList.add("card__like-counter_is-active");
-          counterElement.textContent = likes.length;
-        } else {
-          counterElement.classList.remove("card__like-counter_is-active");
-          counterElement.textContent = "";
-        }
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        buttonElement.disabled = false;
-      });
-  } else {
-    likeCard(cardId)
-      .then(({ likes }) => {
-        buttonElement.classList.add("card__like-button_is-active");
+  // if (isActiveLike) {
+  //   unLikeCard(cardId)
+  //     .then(({ likes }) => {
+  //       buttonElement.classList.remove("card__like-button_is-active");
 
-        counterElement.classList.add("card__like-counter_is-active");
-        counterElement.textContent = likes.length;
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        buttonElement.disabled = false;
-      });
-  }
+  //       if (likes.length) {
+  //         counterElement.classList.add("card__like-counter_is-active");
+  //         counterElement.textContent = likes.length;
+  //       } else {
+  //         counterElement.classList.remove("card__like-counter_is-active");
+  //         counterElement.textContent = "";
+  //       }
+  //     })
+  //     .catch((err) => console.error(err))
+  //     .finally(() => {
+  //       buttonElement.disabled = false;
+  //     });
+  // } else {
+  //   likeCard(cardId)
+  //     .then(({ likes }) => {
+  //       buttonElement.classList.add("card__like-button_is-active");
+
+  //       counterElement.classList.add("card__like-counter_is-active");
+  //       counterElement.textContent = likes.length;
+  //     })
+  //     .catch((err) => console.error(err))
+  //     .finally(() => {
+  //       buttonElement.disabled = false;
+  //     });
+  // }
 }
 
 const handleProfileImageFormSubmit = (event) => {
